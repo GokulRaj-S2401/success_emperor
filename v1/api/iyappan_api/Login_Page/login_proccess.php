@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+include('../../../../DB/connection.php');
 try
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") 

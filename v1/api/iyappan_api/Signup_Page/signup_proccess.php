@@ -1,17 +1,17 @@
 <?php
-include('connection.php');
+include('../../../../DB/connection.php');
 try
 {
-    if(isset($_POST['raisedDate']) && isset($_POST['question']) && isset($_POST['raisedBy']) && isset($_POST['createdOn']) && isset($_POST['isActive']) )
+    if(isset($_POST['email']) && isset($_POST['userName']) && isset($_POST['phoneNo']) && isset($_POST['password']) && isset($_POST['isActive']) )
     {
-        $raisedDate = $_POST['raisedDate'];
-        $question = $_POST['question'];
-        $raisedBy = $_POST['raisedBy'];
-        $createdOn =$_POST['createdOn'];
+        $email = $_POST['email'];
+        $userName = $_POST['userName'];
+        $phoneNo = $_POST['phoneNo'];
+        $password =$_POST['password'];
         $isActive =$_POST['isActive'];
 
-        $stmt =$conn->prepare( "INSERT INTO english_emperor_support (Raised_Date, Question, Raised_By, Created_On, Is_Active) VALUES(?,?,?,?,?)");
-        $stmt->bind_param("ssisi", $raisedDate,$question, $raisedBy, $createdOn , $isActive );
+        $stmt =$conn->prepare( "INSERT INTO english_emperor_user (Email, User_Name, Phone_Number,Password,Is_Active) VALUES(?,?,?,?,?)");
+        $stmt->bind_param("ssssi", $email,$userName, $phoneNo, $password , $isActive );
         $stmt->execute();
         $result = $stmt->get_result();
         if($result)
@@ -24,15 +24,17 @@ try
             $res=array("status"=>"S","message"=>"Data was stored");
             echo json_encode($res);
         }
+        $stmt->close();
     }
     else
     {
         $res=array("status"=>"F","message"=>"All files are required");
         echo json_encode($res);
     }
-    $stmt->close();
+    
 }
 catch(Exception $e){
+    
     echo "Internal server error" .$e->getMessage();
 }
 $conn->close();
